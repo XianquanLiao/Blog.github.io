@@ -19,13 +19,13 @@
 >whenever you want to fetch/insert information in it — you talk to that machine directly. 
 
 ### Traditional System:
-              ![GitHub](https://github.com/XianquanLiao/Blog.github.io/blob/master/Traditional%20System.jpg")  
+  ![GitHub](https://github.com/XianquanLiao/Blog.github.io/blob/master/Traditional%20System.jpg)  
  
 >If we distribute this database system, we’d need to have this database run on multiple machines at the same time.  
 >The user must be able to talk to whichever machine he chooses.  
 
 ### Distributed System:
-              ![GitHub](https://github.com/XianquanLiao/Blog.github.io/blob/master/Distributed%20System.jpg "Traditional System")  
+  ![GitHub](https://github.com/XianquanLiao/Blog.github.io/blob/master/Distributed%20System.jpg)  
 
 >Systems are always distributed by necessity. What a distributed system enables you to do is scale horizontally.  
 >Going back to our previous example of the single database server, the only way to handle more traffic would be  
@@ -57,13 +57,13 @@
 >A traditional three-tier client-oriented system with server-side logic. A good example is a typical ecommerce app.
 
 ### Tradtional 3-tier System:
-              ![GitHub](https://github.com/XianquanLiao/Blog.github.io/blob/master/3-Tier%20System.jpg "Traditional 3-tier System")  
+  ![GitHub](https://github.com/XianquanLiao/Blog.github.io/blob/master/3-Tier%20System.jpg)  
 
 >With this architecture the client can be relatively unintelligent, with much of the logic  
 >in the system—authentication, page navigation, searching, transactions—implemented by the server application.  
 
 ### With a Serverless architecture this may end up looking more like this:  
-              ![GitHub](https://github.com/XianquanLiao/Blog.github.io/blob/master/Serverless%20System.jpg "Serverless System")  
+  ![GitHub](https://github.com/XianquanLiao/Blog.github.io/blob/master/Serverless%20System.jpg)  
 
 >This example demonstrates a very important point about Serverless architectures. In the original version,  
 >all flow, control, and security was managed by the central server application. In the Serverless version,  
