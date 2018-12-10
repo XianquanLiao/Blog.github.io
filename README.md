@@ -74,64 +74,77 @@
 >>( https://martinfowler.com/articles/serverless.html)
 
 ###  Benefits: 
->>(https://en.wikipedia.org/wiki/Serverless_computing)
-#### 1. Reduced operational cost
->Serverless can be more cost-effective than renting or purchasing a fixed quantity of servers,  
->It allows you to pay someone to manage servers, databases and even application logic that you might otherwise  
->manage yourself. Since you're using a predefined service that many other people will also be using we see an Economy  
->of Scale effect: you pay less for your managed database because one vendor is running thousands of very similar databases.
+>In my process of developing an AWS Serverless application using the Serverless Framework,  
+>the most convenient thing is that the first deployment is no different from the second and third deployments.  
+>Just execute serverless deploy, and after a few minutes, our code runs online. If it's a traditional AWS app,  
+>I need to SSH to my server for deployment so I can write my auto-deployment script. 
 
-####  2. Elasticity verses Scalability
->In addition, a serverless architecture means that developers and operators do not need to spend time setting up  
->and tuning autoscaling policies or systems; the cloud provider is responsible for seamlessly scaling the capacity to the demand. 
->As cloud native systems inherently scale down as well as up, these systems are known as elastic rather than scalable.
->Small teams of developers are able to run code themselves without the dependence upon teams of infrastructure and support engineers. 
+>In addition, I think the deployment is convenient, and the price is reasonable.  
+>I can boldly use these services. Of course, there are other significant advantages.
 
-####  3. Productivity
->With Function as a service, the units of code exposed to the outside world are simple functions.  
->This means that typically, the programmer does not have to worry about multithreading or directly handling  
->HTTP requests in their code, simplifying the task of back-end software development.
+#### 1. Reduce startup costs 
+>When we develop a Web application as a company, we need a version management server,  
+>a continuous integration server, a test server, an application version management repository, etc.  
+>as a basic service during development. When running online, we need a good database server  
+>in order to handle a large number of requests. When our app is for the average user, we need to:
+>Mail service for sending reminders, registrations, etc.
+>SMS service (according to the national real name), used for user authorization operations such as registration and login
+>For large companies, these are off-the-shelf infrastructure. For start-ups, this is some startup cost.
+>Serverless can be more cost-effective than renting or purchasing a fixed quantity of servers.
+
+####  2. Automatic expansion capability
+>Behind Serverless is FaaS (Function as a Services) such as AWS Lambda.
+>For traditional applications, the way to handle more requests is to deploy more instances.  
+>However, it is often too late to deploy instances. For FaaS, we don't need to do this, and FaaS will automatically expand.  
+>It can launch as many copies of the instance as needed without lengthy deployment and configuration delays.
+
+####  3. Reduce operating costs
+>For start-ups, they have no infrastructure, no financial resources, and may not be able to build infrastructure.  
+>Adopting cloud services is often the best option and can save a lot of money.  
+>They can focus on creating products that are valuable to users. If a startup uses cloud services  
+>instead of building servers yourself. Then, he will have more time to develop business functions than  
+>focus on them. Just pay for the software at runtime.
+>The biggest difference between Serverless and cloud server with function calculation is that  
+>the cloud server needs to run all the time, and the function calculation is calculated on demand.  
+>On-demand computing means that the function is run when the request arrives. When there is no request, it is not worth the money.
+>At the beginning of the project, the number of users tends to grow slowly, and when we choose a server,  
+>we often estimate it according to the users that may appear. At this time, it is often a waste of unnecessary costs.  
+>However, even if the user suddenly breaks out, the Serverless app can handle it easily.  
+>Just modify the database configuration and redeploy one.  
+
+####  4. Faster development speed
+>A range of basic services are already available due to the Serverless service provider.  
+>As developers, we only need to focus on how to better implement the business, rather than some technical limitations.
+>The service provider has prepared for us and tested this series of services. They are basically stable and reliable  
+>and do not encounter particularly large problems. In fact, when we have enough powerful code,  
+>such as using tests to ensure robustness, then with continuous integration, we can deploy directly to  
+>the production environment when the PUSH code. Of course, it may not be so troublesome. We just need to  
+>add a predeploy hook and do some automatic testing in this hook to release the new version directly locally.
+>In this process, we don't need to consider too many postings.
 
 ###  Drawbacks:  
->>(https://en.wikipedia.org/wiki/Serverless_computing)
-####  1. Performance
->Infrequently-used serverless code may suffer from greater response latency than code that is continuously  
->running on a dedicated server, virtual machine, or container. This is because, unlike with autoscaling,  
->the cloud provider typically "spins down" the serverless code completely when not in use. This means that  
->if the runtime requires a significant amount of time to start up, it will create additional latency.
+>As an application that starts at runtime, Serverless also has several problems we need to admit.
 
-####  2. Resource limits
->Serverless computing is not suited to some computing workloads, such as high-performance computing,  
->because of the resource limits imposed by cloud providers, and also because it would likely be cheaper  
->to bulk-provision the number of servers believed to be required at any given point in time.
+####  1. Not suitable for long-running applications
+>Serverless runs when the request comes. This means that when the application is not running,  
+>it will enter the "sleep state", and the next time the request comes, the application will need a startup time,  
+>which is a cold start. At this time, you can use the CRON method or CloudWatch to wake up the application regularly.
+>If your application needs to run uninterruptedly for a long time, processing a large number of requests,  
+>then you may not be suitable for the Serverless architecture. In this case, using a cloud server like EC2  
+>is often a better option. Because EC2 is cheaper in terms of price.
+>EC2 is equivalent to buying a car, and Lambda is equivalent to renting a car.
+>The cost of long-term car rental is definitely more expensive than buying a car, but you will lose some of  
+>the maintenance costs. Therefore, this problem is actually a question worthy of in-depth calculation.
 
-####  3. Monitoring and debugging
->Diagnosing performance or excessive resource usage problems with serverless code may be more difficult  
->than with traditional server code, because although entire functions can be timed, there is typically  
->no ability to dig into more detail by attaching profilers, debuggers or APM tools. Furthermore, the environment  
->in which the code runs is typically not open source, so its performance characteristics cannot be  
->precisely replicated in a local environment.
-
-####  4. Security
->Serverless is sometimes mistakenly considered as more secure than traditional architectures.  
->While this is true to some extent because OS vulnerabilities are taken care of by the cloud provider,  
->the total attack surface is significantly larger as there are many more components to the application  
->compared to traditional architectures and each component is an entry point to the serverless application.  
->Moreover, the security solutions customers used to have to protect their cloud workloads become  
->irrelevant as customers cannot control and install anything on the endpoint and network level such as IDS/IPS. 
->This is intensified by the mono-culture properties of the entire server network. (A single flaw can be applied globally.)
-
-####  5. Privacy
->Many serverless function environments are based on proprietary public cloud environments.  
->Here, some privacy implications have to be considered, such as shared resources and access  
->by external employees. However, serverless computing can also be done on private cloud environment  
->or even on-premises, using for example the Kubernetes platform. This gives companies full control  
->over privacy mechanisms, just as with hosting in traditional server setups.
-
-####  6. Standards
->Serverless computing is covered by IDCA (International Data Center Authority in their Framework AE360)  
->However, the part related to portability can be an issue when moving business logic from one public cloud  
->to another for which the docker solution was created. Cloud Native Computing Foundation (CNCF) is  
->also working on developing a specification with Oracle. 
- 
+####  2. Fully dependent on third party services
+>when you decide to use a cloud service, it means you may have gone without a return.  
+>In this case, you can only put unimportant APIs on Serverless.
+>Serverless is not a good thing for you when you already have a lot of infrastructure.  
+>When we adopted the Serverless architecture, we were bundled with a special service provider.  
+>We use AWS's services, so it's not that easy to move our services to Google Cloud.
+>We need to modify the underlying code of the series. The solution that can be taken is  
+>to establish an isolation layer. This means that when designing an application, you need to:
+> - Quarantine API Gateway
+> - Isolating the database layer
+>These will also bring us some extra costs, and the problems that may be brought out will be more than the problems solved.
   
